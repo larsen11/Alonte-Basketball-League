@@ -1,0 +1,109 @@
+/* AlonteLeagueForm.css */
+
+/* --- NEW: The Page Background --- */
+body {
+    background-image: url('../assets/bg.png');
+    background-size: cover;        /* Stretches the image to cover the whole screen */
+    background-position: center;   /* Centers the image */
+    background-attachment: fixed;  /* Keeps the background still when scrolling */
+    background-repeat: no-repeat;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* 1. The main container holding your form */
+.league-form-container {
+    max-width: 500px;
+    margin: px auto;
+    padding: 40px 30px;
+    
+    /* --- UPDATED: Semi-transparent background --- */
+    background-color: rgba(255, 255, 255, 0.60); /* The 0.85 controls how see-through it is (0 is invisible, 1 is solid) */
+    backdrop-filter: blur(8px); /* Adds a premium frosted glass blur to the background behind the form */
+    
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(216, 27, 96, 0.25); 
+    border-top: 6px solid #d81b60; 
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. Title and Subtitle Styling */
+.league-form-title {
+    text-align: center;
+    color: #ec1d81;
+    font-size: 42px;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.league-form-subtitle {
+    text-align: center;
+    color: #444; /* Made slightly darker to read better on transparency */
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* 3. THIS FORCES THE TOP-TO-BOTTOM LAYOUT */
+.league-form-input {
+    display: block; 
+    width: 100%;    
+    padding: 14px;
+    margin-bottom: 16px; 
+    box-sizing: border-box; 
+    
+    /* --- UPDATED: Made input boxes slightly transparent too --- */
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(224, 224, 224, 0.8);
+    
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 4. The "Focus" state (when a user clicks inside the box) */
+.league-form-input:focus {
+    outline: none;
+    border-color: #d81b60; 
+    box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.1); 
+    background-color: #ffffff; /* Turns solid white when typing for easier reading */
+}
+
+/* 5. The lines separating sections */
+.league-form-divider {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px dashed rgba(204, 204, 204, 0.8);
+}
+
+/* 6. The Submit Button */
+.league-form-button {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background-color: #d81b60; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.league-form-button:hover {
+    background-color: #c2185b; 
+}
+
+.league-form-button:active {
+    transform: scale(0.98);
+}
