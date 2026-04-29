@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require('http');
 
-const app = express();
-const server = http.createServer(app); 
-const app = express();
+const app = express(); // Declared ONLY once here
 const server = http.createServer(app); 
 
 // 1. ADVANCED CORS CONFIGURATION
@@ -19,13 +17,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// FIXED FOR EXPRESS 5 (Named wildcard)
+// Fixed for Express 5 compatibility
 app.options("/:path*", cors(corsOptions)); 
-
-app.use(express.json());
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Enable pre-flight for all routes
 
 app.use(express.json());
 
