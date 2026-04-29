@@ -6,17 +6,21 @@ const http = require('http');
 const app = express();
 const server = http.createServer(app); 
 
-// 1. Middleware
-app.use(cors({
-    // REMOVED the "/" at the end to fix the CORS policy error
-    origin: "https://alonte-basketball-league-2.onrender.com", 
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"]
-}));
+// 1. ADVANCED CORS CONFIGURATION
+const corsOptions = {
+    origin: "https://alonte-basketball-league-2.onrender.com", // No trailing slash
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    optionsSuccessStatus: 200 
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Enable pre-flight for all routes
+
 app.use(express.json());
 
 // 2. Database Connection
-// Added 'AlonteLeague' to the URI to ensure data goes to the right collection
 const dbURI = "mongodb+srv://larsenreyes:larsenreyes@cluster0.wnpspyc.mongodb.net/AlonteLeague";
 
 mongoose 
