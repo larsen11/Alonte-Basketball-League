@@ -3,26 +3,25 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require('http');
 
-const app = express(); // Declared ONLY once here
+const app = express(); 
 const server = http.createServer(app); 
 
-// 1. ADVANCED CORS CONFIGURATION
-const corsOptions = {
-    origin: "https://alonte-basketball-league-2.onrender.com", 
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-    optionsSuccessStatus: 200 
-};
+// 1. MIDDLEWARE & CORS (Must be before routes)
+// Allows all origins temporarily to test the connection
+app.use(cors()); 
 
-app.use(cors(corsOptions));
+// Explicit pre-flight handler for Express 5 compatibility
+app.options("/:path*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "https://alonte-basketball-league-2.onrender.com");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.sendStatus(200);
+});
 
-// Fixed for Express 5 compatibility
-app.options("/:path*", cors(corsOptions)); 
-
+// Required for parsing JSON data from your React form
 app.use(express.json());
 
-// 2. Database Connection
+// 2. DATABASE CONNECTION
 const dbURI = "mongodb+srv://larsenreyes:larsenreyes@cluster0.wnpspyc.mongodb.net/AlonteLeague";
 
 mongoose 
@@ -30,10 +29,10 @@ mongoose
     .then(() => console.log("MongoDB Connected Successfully"))
     .catch((error) => {
         console.error("MongoDB Connection Error:", error.message);
-        process.exit(1);
+        process.exit(1); // Exits if connection fails to prevent app hanging
     });
 
-// 3. Routes
+// 3. ROUTES
 const submitForm = require('./API/submit');
 app.use("/submit", submitForm);
 
@@ -41,7 +40,7 @@ app.get('/', (req, res) => {
     res.send("Alonte Basketball League API is online.");
 });
 
-// 4. Start Server
+// 4. START SERVER
 const PORT = process.env.PORT || 8080; 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
