@@ -41,6 +41,8 @@ app.get('/', (req, res) => {
 
 // 4. START SERVER
 const PORT = process.env.PORT || 8080; 
-server.listen(PORT, () => {
+
+// Add '0.0.0.0' to force Render to expose the port to the public internet
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
