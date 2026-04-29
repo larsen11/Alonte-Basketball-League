@@ -1,26 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const app = express();
 const http = require('http');
 
-// Change your server creation to this:
+const app = express();
 const server = http.createServer(app); 
 
-const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
+// 1. Middleware (must be before routes)
 app.use(cors());
 app.use(express.json());
 
-app.get('/test', (req, res) => {
-    res.send("server is running");
-});
-
-// REMOVED: useNewUrlParser and useUnifiedTopology
-// ADDED: The database name (e.g., 'myFirstDatabase') before the '?'
+// 2. Database Connection
 const dbURI = "mongodb+srv://larsenreyes:larsenreyes@cluster0.wnpspyc.mongodb.net/";
 
 mongoose 
@@ -28,22 +18,19 @@ mongoose
     .then(() => console.log("MongoDB Connected Successfully"))
     .catch((error) => {
         console.error("MongoDB Connection Error:", error.message);
-        // Note: Check your IP Whitelist in MongoDB Atlas if this still fails!
         process.exit(1);
     });
 
-    app.use(cors());
-    app.use(express.json());
+// 3. Routes
+const submitForm = require('./API/submit');
+app.use("/submit", submitForm);
 
-    const submitForm = require('./API/submit')
-
-    app.use("/submit", submitForm);
-const PORT = process.env.PORT || 8080; 
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.get('/test', (req, res) => {
+    res.send("server is running");
 });
 
-app.listen(PORT, () => {
-    console.log(`server is running on http://localhost:${PORT}`);
+// 4. Start Server (Only call this ONCE)
+const PORT = process.env.PORT || 8080; 
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
