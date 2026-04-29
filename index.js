@@ -25,7 +25,7 @@ mongoose
 const submitForm = require('./API/submit');
 app.use("/submit", submitForm);
 
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
     res.send("server is running");
 });
 
