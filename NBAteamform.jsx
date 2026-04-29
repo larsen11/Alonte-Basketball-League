@@ -31,39 +31,53 @@ const AlonteLeagueForm = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // --- POP-UP ERROR HANDLING ---
+        // --- VALIDATION ---
         const phoneRegex = /^\+639\d{9}$/;
         if (!phoneRegex.test(formData.contact)) {
-            alert("❌ Invalid contact number.\nIt must start with +639 followed by exactly 9 digits.");
+            alert("❌ Invalid contact number. It must start with +639 followed by 9 digits.");
             return;
         }
 
         if (formData.height <= 0 || formData.weight <= 0) {
-            alert("❌ Invalid physical stats.\nHeight and Weight must be valid numbers greater than 0.");
+            alert("❌ Invalid physical stats. Height and Weight must be greater than 0.");
             return;
         }
 
-        // --- SUCCESS STATE (Frontend Only) ---
-        console.log("🏀 FORM SUBMITTED SUCCESSFULLY!");
-        console.table(formData);
+        try {
+            // This connects to your live Render backend
+            const response = await fetch("https://alonte-basketball-backend.onrender.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
 
-        alert("✅ Successfully registered for the tryouts!\nCheck your browser console to see the data.");
-        
-        // Clear the form
-        setFormData({
-            barangay: "", address: "", name: "", age: "", contact: "", 
-            height: "", weight: "", medicalConditions: "", competitionLevel: "", position: ""
-        });
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("🏀 REGISTRATION SUBMITTED SUCCESSFULLY!");
+                // Clear the form after successful save to MongoDB
+                setFormData({
+                    barangay: "", address: "", name: "", age: "", contact: "", 
+                    height: "", weight: "", medicalConditions: "", competitionLevel: "", position: ""
+                });
+            } else {
+                alert("❌ Submission failed: " + (result.message || "Unknown error"));
+            }
+        } catch (error) {
+            console.error("Connection Error:", error);
+            alert("❌ Could not connect to the server. Make sure your backend is running.");
+        }
     };
 
     return (
         <div className="league-form-container">
             <h1 className="league-form-title">Alonte Basketball League Form</h1>
             
-            {/* Two-liner description */}
             <p className="league-form-subtitle">
                 Official registration and tryout form to monitor, assess,<br/>
                 and select players residing in Biñan City for the 2026 league.
