@@ -6,14 +6,18 @@ const http = require('http');
 const app = express();
 const server = http.createServer(app); 
 
-// 1. Middleware (must be before routes)
+// 1. Middleware
 app.use(cors({
-    origin: "https://alonte-basketball-league-2.onrender.com/"
+    // REMOVED the "/" at the end to fix the CORS policy error
+    origin: "https://alonte-basketball-league-2.onrender.com", 
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"]
 }));
 app.use(express.json());
 
 // 2. Database Connection
-const dbURI = "mongodb+srv://larsenreyes:larsenreyes@cluster0.wnpspyc.mongodb.net/";
+// Added 'AlonteLeague' to the URI to ensure data goes to the right collection
+const dbURI = "mongodb+srv://larsenreyes:larsenreyes@cluster0.wnpspyc.mongodb.net/AlonteLeague";
 
 mongoose 
     .connect(dbURI) 
@@ -28,10 +32,10 @@ const submitForm = require('./API/submit');
 app.use("/submit", submitForm);
 
 app.get('/', (req, res) => {
-    res.send("server is running");
+    res.send("Alonte Basketball League API is online.");
 });
 
-// 4. Start Server (Only call this ONCE)
+// 4. Start Server
 const PORT = process.env.PORT || 8080; 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
