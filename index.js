@@ -7,7 +7,9 @@ const app = express();
 const server = http.createServer(app); 
 
 // 1. Middleware (must be before routes)
-app.use(cors());
+app.use(cors({
+    origin: "https://alonte-basketball-league-2.onrender.com/"
+}));
 app.use(express.json());
 
 // 2. Database Connection
