@@ -5,6 +5,8 @@ const http = require('http');
 
 const app = express();
 const server = http.createServer(app); 
+const app = express();
+const server = http.createServer(app); 
 
 // 1. ADVANCED CORS CONFIGURATION
 const corsOptions = {
@@ -17,8 +19,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// FIXED FOR EXPRESS 5:
-app.options("(.*)", cors(corsOptions)); 
+// FIXED FOR EXPRESS 5 (Named wildcard)
+app.options("/:path*", cors(corsOptions)); 
 
 app.use(express.json());
 
