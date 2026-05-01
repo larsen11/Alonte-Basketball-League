@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // 1. Import the model we just created
-const Form = require("../models/NBAteamform"); 
+const Form = require("../Models/NBAteamform"); 
 
 router.post("/", async (req, res) => {
     try {
