@@ -21,7 +21,7 @@ app.options("{*path}", (req, res) => {
 app.use(express.json());
 
 // 2. DATABASE CONNECTION
-const dbURI = "mongodb+srv://larsenreyes:larsenreyes@cluster0.wnpspyc.mongodb.net/AlonteLeague";
+const dbURI = "mongodb://larsenreyes:larsenreyes@ac-2yapnh7-shard-00-00.wnpspyc.mongodb.net:27017,ac-2yapnh7-shard-00-01.wnpspyc.mongodb.net:27017,ac-2yapnh7-shard-00-02.wnpspyc.mongodb.net:27017/AlonteLeague?ssl=true&replicaSet=atlas-ttkcgh-shard-0&authSource=admin&appName=Cluster0";
 
 mongoose 
     .connect(dbURI) 
