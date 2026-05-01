@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-// 1. You should import your Mongoose Model here to actually save to MongoDB
-// const Form = require("../models/Form"); 
+// 1. Import the model we just created
+const Form = require("../models/Form"); 
 
 router.post("/", async (req, res) => {
     try {
@@ -18,26 +18,25 @@ router.post("/", async (req, res) => {
             });
         }
 
-        // --- 3. LOGGING FOR DEBUGGING ---
         console.log("🏀 Received Data:", { name, barangay, competitionLevel });
 
-        // --- 4. DATABASE LOGIC (Placeholder) ---
-        /*
+        // --- 3. DATABASE LOGIC (Active) ---
+        // We create a new entry using the data from the frontend
         const newEntry = new Form({
             barangay, address, name, age, contact, 
             height, weight, medicalConditions, competitionLevel, position
         });
-        await newEntry.save();
-        */
 
-        // --- 5. SUCCESS RESPONSE ---
+        // This line actually saves it to your MongoDB Atlas cluster!
+        await newEntry.save(); 
+
+        // --- 4. SUCCESS RESPONSE ---
         res.status(201).json({ 
             message: "🏀 Form Submitted Successfully!",
             receivedData: name 
         });
 
     } catch (error) {
-        // --- 6. ERROR HANDLING ---
         console.error("❌ SUBMISSION ERROR:", error.message);
         
         res.status(500).json({ 
